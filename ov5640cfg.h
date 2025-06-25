@@ -14,15 +14,15 @@
 //All rights reserved									  
 ////////////////////////////////////////////////////////////////////////////////// 
 
-//JPEG配置.7.5帧
+//JPEG
 //最大支持2592*1944的JPEG图像输出
 const u16 OV5640_jpeg_reg_tbl[][2] =
 {
     0x4300, 0x30, // YUV 422, YUYV
     0x501f, 0x00, // YUV 422
-    // Input clock = 24Mhz
-    0x3035, 0x21, // PLL  
-    0x3036, 0x69, // PLL 
+    // Input clock = 24Mhz, PCLK = 24MHz
+    0x3035, 0x41, // PLL, Bit[7:4]: System clock divider (Slow down all clocks)
+    0x3036, 0x60, // PLL 
     0x3c07, 0x07, // lightmeter 1 threshold[7:0] 
     0x3820, 0x46, // flip
     0x3821, 0x20, // mirror									 
@@ -55,24 +55,24 @@ const u16 OV5640_jpeg_reg_tbl[][2] =
     0x4004, 0x06, // BLC line number 
     0x3002, 0x00, // enable JFIFO, SFIFO, JPG 
     0x3006, 0xff, // enable clock of JPEG2x, JPEG
-    0x4713, 0x03, // JPEG mode 3
-    0x4407, 0x01, // Quantization sacle 
+    0x4713, 0x02, // JPEG mode 2
+    0x4407, 0x04, // Quantization sacle 
     0x460b, 0x35,
     0x460c, 0x22,
-    0x4837, 0x16, // MIPI global timing 
+    0x4837, 0x22, // MIPI global timing 
     0x3824, 0x02, // PCLK manual divider 
     0x5001, 0xA3, // SDE on, Scaling on, CMX on, AWB on 
     0x3503, 0x00, // AEC/AGC on	
 };
 
-//RGB565配置.15帧
+//RGB565
 //最大支持1280*800的RGB565图像输出
 const u16 ov5640_rgb565_reg_tbl[][2] =
 {
     0x4300, 0X6F,
     0X501F, 0x01,
     // 1280x800, 15fps
-    // input clock 24Mhz, PCLK 42Mhz
+    // input clock 24Mhz, PCLK 24Mhz
     0x3035, 0x41, // PLL
     0x3036, 0x69, // PLL
     0x3c07, 0x07, // lightmeter 1 threshold[7:0]
@@ -109,7 +109,7 @@ const u16 ov5640_rgb565_reg_tbl[][2] =
     0x4004, 0x02, // BLC line number
     0x3002, 0x1c, // reset JFIFO, SFIFO, JPG
     0x3006, 0xc3, // disable clock of JPEG2x, JPEG
-    0x4713, 0x03, // JPEG mode 3
+    0x4713, 0x02, // JPEG mode 2
     0x4407, 0x04, // Quantization scale
     0x460b, 0x37,
     0x460c, 0x20,
@@ -126,8 +126,8 @@ const u16 ov5640_init_reg_tbl[][2] =
     0x3008, 0x42, // software power down, bit[6]
     0x3103, 0x03, // system clock from PLL, bit[1]
     0x3017, 0xff, // FREX, Vsync, HREF, PCLK, D[9:6] output enable
-    0x3018, 0xff, // D[5:0], GPIO[1:0] output enable
-    0x3034, 0x1a, // MIPI 10-bit
+    0x3018, 0xff, // TODO: D[5:0], GPIO[1:0] output enable
+    0x3034, 0x18, // PLL
     0x3037, 0x13, // PLL root divider, bit[4], PLL pre-divider, bit[3:0]
     0x3108, 0x01, // PCLK root divider, bit[5:4], SCLK2x root divider, bit[3:2]
 
@@ -341,7 +341,7 @@ const u16 ov5640_init_reg_tbl[][2] =
     0x5025, 0x00,
     0x3008, 0x02, // wake up from standby, bit[6]
     //自行添加的设置
-    0x4740, 0X21 //VSYNC 高有效
+    0x4740, 0x22 // OV5640_POLARITY_PCLK_HIGH, OV5640_POLARITY_HREF_HIGH, OV5640_POLARITY_VSYNC_HIGH
 };
 
 #endif
