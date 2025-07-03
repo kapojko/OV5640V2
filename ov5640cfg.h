@@ -24,7 +24,8 @@ const u16 OV5640_jpeg_reg_tbl[][2] =
     0x3035, 0x41, // PLL, Bit[7:4]: System clock divider (Slow down all clocks)
     0x3036, 0x60, // PLL 
     0x3c07, 0x07, // lightmeter 1 threshold[7:0] 
-    0x3820, 0x46, // flip
+    // 0x3820, 0x46, // flip
+    0x3820, 0x40, // flip ISP
     0x3821, 0x20, // mirror									 
     0x3814, 0x11, // timing X inc 
     0x3815, 0x11, // timing Y inc 
